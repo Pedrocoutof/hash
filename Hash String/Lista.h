@@ -15,6 +15,9 @@ class Lista {
 private:
     No * inicio;
     int tam;
+    // AO INVES DE GUARDAR COLISOES, GUARDAR POSICAO DO QUE COLIDIU
+    int colisoes;
+    int indexProx;
 
 public:
     Lista();
@@ -26,6 +29,17 @@ public:
 
     No * getInicio();
     int getTam();
+
+    int getColisoes();
+    void incrementaColicoes();
+
+    int setColisoes(int indexProx);
+
+    int getIndexProx();
+
+    int setIndexProx(int indexProx);
+
+    void incrementaTam();
 };
 
 

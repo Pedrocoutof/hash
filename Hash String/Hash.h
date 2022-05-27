@@ -31,6 +31,11 @@ public:
     void imprime();
 
 
+    bool posicaoVazia(int index);
+
+    void insereTeste(string chave, string metodo = "");
+
+    bool verificaChaveIdentica(string chave);
 };
 
 
