@@ -114,6 +114,19 @@ void Hash::insereDuploHash(string chave, string metodo) {
     }
 }
 
+void Hash::imprime() {
+    cout << endl << "=== Imprimindo Lista ===" << endl;
+    for(int i = 0; i < this->tam; i++){
+        cout << "[" << i << "] - ";
+        this->tabela[i].imprime();
+        cout << "\t Numero de repeticoes: [" << tabela[i].getTam() + 1 << "]";
+        cout << "\t Numero de colisoes: [" << tabela[i].getColisoes() << "]";
+        cout << endl;
+    }
+
+    cout << endl << "========================" << endl;
+}
+
 void Hash::salvaTabelaHashTxt(string nomeArquivo){
     ofstream of_txt;
 
@@ -135,15 +148,25 @@ void Hash::salvaTabelaHashTxt(string nomeArquivo){
 
 }
 
-void Hash::imprime() {
-    cout << endl << "=== Imprimindo Lista ===" << endl;
-    for(int i = 0; i < this->tam; i++){
-        cout << "[" << i << "] - ";
-        this->tabela[i].imprime();
-        cout << "\t Numero de repeticoes: [" << tabela[i].getTam() + 1 << "]";
-        cout << "\t Numero de colisoes: [" << tabela[i].getColisoes() << "]";
-        cout << endl;
+void Hash::salvaTabelaHashCSV(string nomeArquivo){
+    ofstream arq_csv;
+
+    arq_csv.open("../output/" + nomeArquivo + ".csv");
+
+    arq_csv << "index;chave;repeticoes;colisoes" << endl;
+
+    for(int index = 0 ; index < this->tam; index++) {
+        arq_csv << index << ";";
+        if (!posicaoVazia(index)){
+            arq_csv << this->tabela[index].getInicio()->getInfo() << ";";
+            arq_csv << this->tabela[index].getTam()+1 << ";";
+            arq_csv << this->tabela[index].getColisoes() << endl;
+        }
+        else{
+            arq_csv << ";";
+            arq_csv << ";";
+            arq_csv << endl;
+        }
     }
 
-    cout << endl << "========================" << endl;
 }

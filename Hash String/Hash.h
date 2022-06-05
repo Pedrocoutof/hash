@@ -44,6 +44,8 @@ public:
     int funcaoHashPorMultiplicacaoParaString(string chave);
 
     int duploHash(int indexBase, string chave, int tentativas);
+
+    void salvaTabelaHashCSV(string nomeArquivo);
 };
 
 

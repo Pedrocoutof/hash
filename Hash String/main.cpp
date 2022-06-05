@@ -74,7 +74,8 @@ void testesHashComArquivo(){
         }
 
     }
-    hash.salvaTabelaHashTxt("tabela1");
+    hash.salvaTabelaHashTxt("tabelaTXT");
+    hash.salvaTabelaHashCSV("tabelaCSV");
     //hash.imprime();
 
     hash.busca("lake");
