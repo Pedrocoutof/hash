@@ -14,7 +14,7 @@ using namespace std;
 
 class Hash {
 private:
-    int tam;
+    unsigned int tam;
     const float A = 0.4;
     Lista * tabela;
     int funcaoHashPorDivisao(int chave);
@@ -25,7 +25,6 @@ public:
     ~Hash();
 
     int funcaoHashPorDivisaoParaString(string chave);
-    int funcaoHashPorMultiplicacaoParaString(string chave);
     void insere(string chave, string metodo = "");
     bool busca(string chave);
     void imprime();
@@ -33,9 +32,18 @@ public:
 
     bool posicaoVazia(int index);
 
-    void insereTeste(string chave, string metodo = "");
+    void insereSondagemLinear(string chave, string metodo = "");
+    void insereDuploHash(string chave, string metodo = "");
 
     bool verificaChaveIdentica(string chave);
+
+    void salvaTabelaHashTxt(string arqNome);
+
+    int duploHash();
+
+    int funcaoHashPorMultiplicacaoParaString(string chave);
+
+    int duploHash(int indexBase, string chave, int tentativas);
 };
 
 

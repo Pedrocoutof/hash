@@ -1,47 +1,21 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
+
 using namespace std;
 
 #include "Hash.h"
 #include "Lista.h"
 
-string lowerCase(string str){
-    for(int i = 0; i < str.length(); i++)
-        if(isupper(str[i]))
-            str[i] = tolower(str[i]);
-
-    return str;
-}
-
 void testeHash(){
-    /*
-    Hash hash(7);
 
-    hash.insere("P", "multiplicacao");
-    hash.insere("Pe", "multiplicacao");
-    hash.insere("Ped", "multiplicacao");
-    hash.insere("Pedr", "multiplicacao");
-    hash.insere("Pedro", "multiplicacao");
-
-
-    hash.imprime();
-
-    Hash hash2(7);
-
-    hash2.insere("P");
-    hash2.insere("Pe");
-    hash2.insere("Ped");
-    hash2.insere("Pedr");
-    hash2.insere("Pedro");
-
-    hash2.imprime();
-    */
     Hash hash3(7);
 
     string arrStrings [] = {"Pe", "Pe", "Pe", "Pedr", "Pedro"};
 
     for(int i = 0 ; i < 5 ; i ++){
         cout << arrStrings[i];
-        hash3.insereTeste(arrStrings[i]);
+        hash3.insereSondagemLinear(arrStrings[i]);
     }
 
     hash3.imprime();
@@ -50,7 +24,62 @@ void testeHash(){
 
 }
 
+string clearString(string key){
+    string dest = "";
+
+    for(int i = 0; i < key.length(); i++){
+        if((key[i] >= 97 && key[i] <= 122)){
+            dest+= key[i];
+        }
+    }
+
+    return dest;
+}
+
+string lowerCase(string key){
+    for(int i = 0; i < key.length() ; i++){
+        if(isupper(key[i])){
+            key[i] = tolower(key[i]);
+        }
+    }
+    return key;
+}
+
+void testesHashComArquivo(){
+    ifstream domCasmurro;
+
+    domCasmurro.open("../DomCasmurro.txt");
+
+    Hash hash(53413);
+
+    string line;
+    stringstream iss;
+    string word;
+
+    while(domCasmurro.peek() != EOF){
+        line.clear();
+        iss.clear();
+
+
+        getline(domCasmurro, line );
+
+        iss << line;
+
+        while(getline(iss, word, ' ')){
+            string strClean;
+            strClean.clear();
+            strClean = clearString(lowerCase(word));
+            if(strClean.length() > 3)
+                hash.insereDuploHash(strClean);
+        }
+
+    }
+    hash.salvaTabelaHashTxt("tabela1");
+    hash.imprime();
+}
+
 int main() {
-    testeHash();
+    //testeHash();
+    testesHashComArquivo();
     return 0;
 }

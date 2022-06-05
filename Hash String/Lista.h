@@ -24,16 +24,17 @@ public:
     ~Lista();
 
     void insere(string chave);
+    bool insereBool(string chave);
     void imprime();
+    void imprimeNoArquivo(ofstream& of_arq);
     void iniciaLista();
 
     No * getInicio();
     int getTam();
 
     int getColisoes();
-    void incrementaColicoes();
+    void incrementaColisoes();
 
-    int setColisoes(int indexProx);
 
     int getIndexProx();
 

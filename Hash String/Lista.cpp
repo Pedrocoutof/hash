@@ -2,6 +2,7 @@
 // Created by pedro on 25/05/2022.
 //
 #include <cstring>
+#include <fstream>
 #include "Lista.h"
 #include "iostream"
 using namespace std;
@@ -28,18 +29,29 @@ void Lista::insere(string chave) {
     }
 
     else if(strcmp(chave.c_str(), this->inicio->getInfo().c_str()) == 0){
-        cout << "Chaves identicas";
         this->tam = this->tam + 1;
         return;
     }
 
-    else {
+}
+
+bool Lista::insereBool(string chave) {
+
+    if(this->inicio == nullptr){
         No * novoNo = new No;
         novoNo->setInfo(chave);
-        novoNo->setProx(this->inicio);
+        novoNo->setProx(nullptr);
         this->inicio = novoNo;
         this->tam = this->tam + 1;
+        return true;
     }
+
+    else if(strcmp(chave.c_str(), this->inicio->getInfo().c_str()) == 0){
+        this->tam = this->tam + 1;
+        return true;
+    }
+
+    return false;
 }
 
 void Lista::iniciaLista(){
@@ -60,6 +72,18 @@ void Lista::imprime(){
     }
 }
 
+void Lista::imprimeNoArquivo(ofstream& of_txt){
+    if(this->inicio != nullptr){
+        No * aux = this->inicio;
+        while (aux){
+            of_txt << aux->getInfo() << " ";
+            aux = aux->getProx();
+        }
+    }else{
+        of_txt << "Lista vazia!";
+    }
+}
+
 No * Lista::getInicio(){
     return this->inicio;
 }
@@ -72,7 +96,7 @@ int Lista::getColisoes(){
     return this->colisoes;
 }
 
-void Lista::incrementaColicoes(){
+void Lista::incrementaColisoes(){
     this->colisoes++;
 }
 
