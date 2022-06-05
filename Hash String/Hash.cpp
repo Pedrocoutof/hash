@@ -59,24 +59,36 @@ int Hash::funcaoHashPorMultiplicacaoParaString(string chave){
     return funcaoHashPorMultiplicacao(aux);
 }
 
-string Hash::busca(string chave){
+Lista * Hash::busca(string chave){
+    int index = buscaRetornaIndex(chave);
+
+    if(index != -1){
+
+        imprimePorIndex(index);
+        // TODO : CONSERTAR RETORNO DA FUNCAO BUSCA
+        exit(404);
+        return this->tabela;
+    }
+
+    return nullptr;
+
+}
+
+int Hash::buscaRetornaIndex(string chave){
 
     int indexBase = 0;
 
+    // TODO VERIFICAR SE O NUMERO DE COLISOES > 0 ? TRUE : FALSE.
     for(int tentativas = 0; tentativas-1 < this->tabela[indexBase].getColisoes() ; tentativas++){
 
         indexBase = duploHash(funcaoHashPorDivisaoParaString(chave), chave, tentativas);
 
         if(!posicaoVazia(indexBase))
-        if(strcmp(this->tabela[indexBase].getInicio()->getInfo().c_str(), chave.c_str()) == 0){
-            cout << "[" << indexBase << "] - ";
-            this->tabela[indexBase].imprime();
-            cout << "\t Numero de repeticoes: [" << tabela[indexBase].getTam() + 1 << "]";
-            cout << "\t Numero de colisoes: [" << tabela[indexBase].getColisoes() << "]";
-            return this->tabela[indexBase].getInicio()->getInfo();
-        }
+            if(strcmp(this->tabela[indexBase].getInicio()->getInfo().c_str(), chave.c_str()) == 0){
+                return indexBase;
+            }
     }
-    return "false";
+    return -1;
 }
 
 void Hash::insereSondagemLinear(string chave, string metodo) {
@@ -127,19 +139,31 @@ void Hash::imprime() {
     cout << endl << "========================" << endl;
 }
 
+void Hash::imprimePorIndex(int index){
+    cout << endl;
+    cout << "[ " << index << " ] - " << this->tabela[index].getInicio()->getInfo();
+    cout << " \t- \tNumero de repeticoes: " << this->tabela[index].getTam() + 1;
+    cout << " \t- \tNumero de colisoes: " << this->tabela[index].getColisoes();
+    cout << endl;
+}
+
 void Hash::salvaTabelaHashTxt(string nomeArquivo){
     ofstream of_txt;
 
     of_txt.open("../output/" + nomeArquivo + ".txt");
 
     of_txt << endl << "=== Imprimindo Tabela ===" << endl;
-    for(int i = 0; i < this->tam; i++){
-        of_txt << "[" << i << "] - ";
+    for(int index = 0; index < this->tam; index++){
+        of_txt << "[" << index << "] - ";
 
-        this->tabela[i].imprimeNoArquivo(of_txt);
+        if(!posicaoVazia(index)){
+            of_txt << this->tabela[index].getInicio()->getInfo();
+            of_txt << "\t Numero de repeticoes: [" << tabela[index].getTam() + 1 << "]";
+            of_txt << "\t Numero de colisoes: [" << tabela[index].getColisoes() << "]";
+        }else{
+            of_txt << "\t Posicao vazia!";
+        }
 
-        of_txt << "\t Numero de repeticoes: [" << tabela[i].getTam() + 1 << "]";
-        of_txt << "\t Numero de colisoes: [" << tabela[i].getColisoes() << "]";
         of_txt << endl;
     }
 
@@ -148,7 +172,7 @@ void Hash::salvaTabelaHashTxt(string nomeArquivo){
 
 }
 
-void Hash::salvaTabelaHashCSV(string nomeArquivo){
+void Hash::salvaTabelaHashCSV(string nomeArquivo, bool ignoraPosicaoVazia){
     ofstream arq_csv;
 
     arq_csv.open("../output/" + nomeArquivo + ".csv");
@@ -156,13 +180,14 @@ void Hash::salvaTabelaHashCSV(string nomeArquivo){
     arq_csv << "index;chave;repeticoes;colisoes" << endl;
 
     for(int index = 0 ; index < this->tam; index++) {
-        arq_csv << index << ";";
         if (!posicaoVazia(index)){
+            arq_csv << index << ";";
             arq_csv << this->tabela[index].getInicio()->getInfo() << ";";
             arq_csv << this->tabela[index].getTam()+1 << ";";
             arq_csv << this->tabela[index].getColisoes() << endl;
         }
-        else{
+        else if(!ignoraPosicaoVazia){
+            arq_csv << index << ";";
             arq_csv << ";";
             arq_csv << ";";
             arq_csv << endl;

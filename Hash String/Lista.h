@@ -15,18 +15,14 @@ class Lista {
 private:
     No * inicio;
     int tam;
-    // AO INVES DE GUARDAR COLISOES, GUARDAR POSICAO DO QUE COLIDIU
     int colisoes;
-    int indexProx;
 
 public:
     Lista();
     ~Lista();
 
     void insere(string chave);
-    bool insereBool(string chave);
     void imprime();
-    void imprimeNoArquivo(ofstream& of_arq);
     void iniciaLista();
 
     No * getInicio();
@@ -34,11 +30,6 @@ public:
 
     int getColisoes();
     void incrementaColisoes();
-
-
-    int getIndexProx();
-
-    int setIndexProx(int indexProx);
 
     void incrementaTam();
 };

@@ -10,7 +10,6 @@ using namespace std;
 Lista::Lista(){
     this->tam = -1;
     this->inicio = nullptr;
-    this->indexProx = -1;
 }
 
 Lista::~Lista(){
@@ -35,29 +34,9 @@ void Lista::insere(string chave) {
 
 }
 
-bool Lista::insereBool(string chave) {
-
-    if(this->inicio == nullptr){
-        No * novoNo = new No;
-        novoNo->setInfo(chave);
-        novoNo->setProx(nullptr);
-        this->inicio = novoNo;
-        this->tam = this->tam + 1;
-        return true;
-    }
-
-    else if(strcmp(chave.c_str(), this->inicio->getInfo().c_str()) == 0){
-        this->tam = this->tam + 1;
-        return true;
-    }
-
-    return false;
-}
-
 void Lista::iniciaLista(){
     this->tam = -1;
     this->inicio = nullptr;
-    this->indexProx = -1;
 }
 
 void Lista::imprime(){
@@ -69,18 +48,6 @@ void Lista::imprime(){
         }
     }else{
         cout << "Lista vazia!";
-    }
-}
-
-void Lista::imprimeNoArquivo(ofstream& of_txt){
-    if(this->inicio != nullptr){
-        No * aux = this->inicio;
-        while (aux){
-            of_txt << aux->getInfo() << " ";
-            aux = aux->getProx();
-        }
-    }else{
-        of_txt << "Lista vazia!";
     }
 }
 
@@ -102,13 +69,5 @@ void Lista::incrementaColisoes(){
 
 void Lista::incrementaTam(){
     this->tam++;
-}
-
-int Lista::setIndexProx(int indexProx){
-    return this->indexProx = indexProx;
-}
-
-int Lista::getIndexProx(){
-    return this->indexProx;
 }
 

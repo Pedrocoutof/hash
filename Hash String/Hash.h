@@ -26,7 +26,7 @@ public:
 
     int funcaoHashPorDivisaoParaString(string chave);
     void insere(string chave, string metodo = "");
-    string busca(string chave);
+    Lista * busca(string chave);
     void imprime();
 
 
@@ -45,7 +45,13 @@ public:
 
     int duploHash(int indexBase, string chave, int tentativas);
 
-    void salvaTabelaHashCSV(string nomeArquivo);
+    void salvaTabelaHashCSV(string nomeArquivo, bool ignoraPosicaoVazia = true);
+
+    int buscaRetornaIndex(string chave);
+
+    void imprimePorIndex();
+
+    void imprimePorIndex(int index);
 };
 
 
