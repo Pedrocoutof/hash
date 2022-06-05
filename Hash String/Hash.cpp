@@ -59,28 +59,24 @@ int Hash::funcaoHashPorMultiplicacaoParaString(string chave){
     return funcaoHashPorMultiplicacao(aux);
 }
 
-bool Hash::busca(string chave){
-    int indexBase = funcaoHashPorDivisaoParaString(chave);
-    int indexSoma = indexBase;
+string Hash::busca(string chave){
 
-    if(posicaoVazia(indexBase)){
-        return false;
-    }
+    int indexBase = 0;
 
-    for(int tentativas = 0; ; tentativas++){
-        indexSoma += tentativas;
-        indexBase = funcaoHashPorDivisao(indexSoma);
+    for(int tentativas = 0; tentativas-1 < this->tabela[indexBase].getColisoes() ; tentativas++){
 
-        if(strcmp(chave.c_str(), this->tabela[indexBase].getInicio()->getInfo().c_str()) == 0){
-            cout << endl << "========================" << endl;
-            cout << "Chave encontrada !" << endl;
-            cout << chave << " == " << this->tabela[indexBase].getInicio()->getInfo() << endl;
-            cout << "========================" << endl;
-            return true;
+        indexBase = duploHash(funcaoHashPorDivisaoParaString(chave), chave, tentativas);
+
+        if(!posicaoVazia(indexBase))
+        if(strcmp(this->tabela[indexBase].getInicio()->getInfo().c_str(), chave.c_str()) == 0){
+            cout << "[" << indexBase << "] - ";
+            this->tabela[indexBase].imprime();
+            cout << "\t Numero de repeticoes: [" << tabela[indexBase].getTam() + 1 << "]";
+            cout << "\t Numero de colisoes: [" << tabela[indexBase].getColisoes() << "]";
+            return this->tabela[indexBase].getInicio()->getInfo();
         }
-
     }
-    return false;
+    return "false";
 }
 
 void Hash::insereSondagemLinear(string chave, string metodo) {
@@ -110,6 +106,10 @@ void Hash::insereDuploHash(string chave, string metodo) {
             tabela[index].incrementaTam();
             return;
         }
+        else{
+            this->tabela[index].incrementaColisoes();
+        }
+
        // cout << "[ " << index << " ] - Posicao ocupada para a chave : " << chave << endl;
     }
 }
@@ -126,6 +126,7 @@ void Hash::salvaTabelaHashTxt(string nomeArquivo){
         this->tabela[i].imprimeNoArquivo(of_txt);
 
         of_txt << "\t Numero de repeticoes: [" << tabela[i].getTam() + 1 << "]";
+        of_txt << "\t Numero de colisoes: [" << tabela[i].getColisoes() << "]";
         of_txt << endl;
     }
 
@@ -140,6 +141,7 @@ void Hash::imprime() {
         cout << "[" << i << "] - ";
         this->tabela[i].imprime();
         cout << "\t Numero de repeticoes: [" << tabela[i].getTam() + 1 << "]";
+        cout << "\t Numero de colisoes: [" << tabela[i].getColisoes() << "]";
         cout << endl;
     }
 

@@ -75,7 +75,10 @@ void testesHashComArquivo(){
 
     }
     hash.salvaTabelaHashTxt("tabela1");
-    hash.imprime();
+    //hash.imprime();
+
+    hash.busca("lake");
+
 }
 
 int main() {

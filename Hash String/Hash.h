@@ -26,7 +26,7 @@ public:
 
     int funcaoHashPorDivisaoParaString(string chave);
     void insere(string chave, string metodo = "");
-    bool busca(string chave);
+    string busca(string chave);
     void imprime();
 
 
